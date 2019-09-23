@@ -1,11 +1,16 @@
 import React from "react";
-import { Header, Card,  } from "semantic-ui-react"
+import { Header, Card, Button, } from "semantic-ui-react"
+import { Link, } from "react-router-dom";
+import axios from "axios"
 
 class Home extends React.Component {
   state = { departments: [], }; 
 
   componentDidMount () {
-    
+    axios.get("/api/departments")
+    .then ( res => {
+      this.setState({ departments: res.data})
+    })
   }
 
   renderDepartments = () => {
@@ -26,6 +31,11 @@ class Home extends React.Component {
     return (
       <div>
         <Header as="h1">Departments</Header>
+        <br />
+        <Button as={Link} color="blue" to="/departments/new">
+          Add a Department
+        </Button>
+        <br />
         <br />
         <Card.Group>
           { this.renderDepartments() }
